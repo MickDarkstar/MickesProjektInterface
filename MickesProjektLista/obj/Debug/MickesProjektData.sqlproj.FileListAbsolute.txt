@@ -1,0 +1,9 @@
+C:\Users\Mick\Documents\Visual Studio 2015\Projects\MickesProjektLista\MickesProjektLista\bin\Debug\MickesProjektData.dacpac
+C:\Users\Mick\Documents\Visual Studio 2015\Projects\MickesProjektLista\MickesProjektLista\bin\Debug\MickesProjektData.dll
+C:\Users\Mick\Documents\Visual Studio 2015\Projects\MickesProjektLista\MickesProjektLista\bin\Debug\MickesProjektData.pdb
+C:\Users\Mick\Documents\Visual Studio 2015\Projects\MickesProjektLista\MickesProjektLista\obj\Debug\MickesProjektData.dll
+C:\Users\Mick\Documents\Visual Studio 2015\Projects\MickesProjektLista\MickesProjektLista\obj\Debug\MickesProjektData.pdb
+C:\Users\Mick\Documents\Visual Studio 2015\Projects\MickesProjektLista\MickesProjektLista\obj\Debug\Model.xml
+C:\Users\Mick\Documents\Visual Studio 2015\Projects\MickesProjektLista\MickesProjektLista\obj\Debug\refactor.xml
+C:\Users\Mick\Documents\Visual Studio 2015\Projects\MickesProjektLista\MickesProjektLista\obj\Debug\postdeploy.sql
+C:\Users\Mick\Documents\Visual Studio 2015\Projects\MickesProjektLista\MickesProjektLista\obj\Debug\predeploy.sql

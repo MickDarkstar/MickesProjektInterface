@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MickesProjektDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="PersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNr" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ProjectDetails" Relationship="Self.FK_dbo_ProjectDetails_dbo_Person_PersonID" FromRole="Person" ToRole="ProjectDetails" />
+  </EntityType>
+  <EntityType Name="Project">
+    <Key>
+      <PropertyRef Name="ProjectID" />
+    </Key>
+    <Property Name="ProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Deadline" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="ProjectDetails" Relationship="Self.FK_dbo_ProjectDetails_dbo_Project_ProjectID" FromRole="Project" ToRole="ProjectDetails" />
+  </EntityType>
+  <EntityType Name="ProjectDetail">
+    <Key>
+      <PropertyRef Name="ProjectDetailsID" />
+    </Key>
+    <Property Name="ProjectDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectID" Type="Int32" Nullable="false" />
+    <Property Name="PersonID" Type="Int32" Nullable="false" />
+    <Property Name="Todo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Person" Relationship="Self.FK_dbo_ProjectDetails_dbo_Person_PersonID" FromRole="ProjectDetails" ToRole="Person" />
+    <NavigationProperty Name="Project" Relationship="Self.FK_dbo_ProjectDetails_dbo_Project_ProjectID" FromRole="ProjectDetails" ToRole="Project" />
+  </EntityType>
+  <Association Name="FK_dbo_ProjectDetails_dbo_Person_PersonID">
+    <End Role="Person" Type="Self.Person" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProjectDetails" Type="Self.ProjectDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="ProjectDetails">
+        <PropertyRef Name="PersonID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ProjectDetails_dbo_Project_ProjectID">
+    <End Role="Project" Type="Self.Project" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ProjectDetails" Type="Self.ProjectDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Project">
+        <PropertyRef Name="ProjectID" />
+      </Principal>
+      <Dependent Role="ProjectDetails">
+        <PropertyRef Name="ProjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MickesProjektDataEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="People" EntityType="Self.Person" />
+    <EntitySet Name="Projects" EntityType="Self.Project" />
+    <EntitySet Name="ProjectDetails" EntityType="Self.ProjectDetail" />
+    <AssociationSet Name="FK_dbo_ProjectDetails_dbo_Person_PersonID" Association="Self.FK_dbo_ProjectDetails_dbo_Person_PersonID">
+      <End Role="Person" EntitySet="People" />
+      <End Role="ProjectDetails" EntitySet="ProjectDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ProjectDetails_dbo_Project_ProjectID" Association="Self.FK_dbo_ProjectDetails_dbo_Project_ProjectID">
+      <End Role="Project" EntitySet="Projects" />
+      <End Role="ProjectDetails" EntitySet="ProjectDetails" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

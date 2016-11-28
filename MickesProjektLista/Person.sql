@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[Person]
+(
+	[PersonID] INT IDENTITY(1,1) NOT NULL,
+	[LastName] NVARCHAR(50) NULL,
+	[FirstName] NVARCHAR(50) NULL,
+	[PhoneNr] VARCHAR(22) NULL,
+	PRIMARY KEY CLUSTERED ([PersonID] ASC)
+)

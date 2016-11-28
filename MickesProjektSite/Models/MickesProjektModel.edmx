@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MickesProjektDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonID" />
+          </Key>
+          <Property Name="PersonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhoneNr" Type="varchar" MaxLength="22" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectTitle" Type="nvarchar" MaxLength="50" />
+          <Property Name="Deadline" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ProjectDetails">
+          <Key>
+            <PropertyRef Name="ProjectDetailsID" />
+          </Key>
+          <Property Name="ProjectDetailsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectID" Type="int" Nullable="false" />
+          <Property Name="PersonID" Type="int" Nullable="false" />
+          <Property Name="Todo" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_dbo_ProjectDetails_dbo_Person_PersonID">
+          <End Role="Person" Type="Self.Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProjectDetails" Type="Self.ProjectDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonID" />
+            </Principal>
+            <Dependent Role="ProjectDetails">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ProjectDetails_dbo_Project_ProjectID">
+          <End Role="Project" Type="Self.Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProjectDetails" Type="Self.ProjectDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="ProjectDetails">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MickesProjektDataModelStoreContainer">
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectDetails" EntityType="Self.ProjectDetails" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_ProjectDetails_dbo_Person_PersonID" Association="Self.FK_dbo_ProjectDetails_dbo_Person_PersonID">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="ProjectDetails" EntitySet="ProjectDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ProjectDetails_dbo_Project_ProjectID" Association="Self.FK_dbo_ProjectDetails_dbo_Project_ProjectID">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ProjectDetails" EntitySet="ProjectDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MickesProjektDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonID" />
+          </Key>
+          <Property Name="PersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNr" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProjectDetails" Relationship="Self.FK_dbo_ProjectDetails_dbo_Person_PersonID" FromRole="Person" ToRole="ProjectDetails" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Deadline" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ProjectDetails" Relationship="Self.FK_dbo_ProjectDetails_dbo_Project_ProjectID" FromRole="Project" ToRole="ProjectDetails" />
+        </EntityType>
+        <EntityType Name="ProjectDetail">
+          <Key>
+            <PropertyRef Name="ProjectDetailsID" />
+          </Key>
+          <Property Name="ProjectDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectID" Type="Int32" Nullable="false" />
+          <Property Name="PersonID" Type="Int32" Nullable="false" />
+          <Property Name="Todo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_dbo_ProjectDetails_dbo_Person_PersonID" FromRole="ProjectDetails" ToRole="Person" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_dbo_ProjectDetails_dbo_Project_ProjectID" FromRole="ProjectDetails" ToRole="Project" />
+        </EntityType>
+        <Association Name="FK_dbo_ProjectDetails_dbo_Person_PersonID">
+          <End Role="Person" Type="Self.Person" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProjectDetails" Type="Self.ProjectDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonID" />
+            </Principal>
+            <Dependent Role="ProjectDetails">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ProjectDetails_dbo_Project_ProjectID">
+          <End Role="Project" Type="Self.Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProjectDetails" Type="Self.ProjectDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="ProjectDetails">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MickesProjektDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="People" EntityType="Self.Person" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
+          <EntitySet Name="ProjectDetails" EntityType="Self.ProjectDetail" />
+          <AssociationSet Name="FK_dbo_ProjectDetails_dbo_Person_PersonID" Association="Self.FK_dbo_ProjectDetails_dbo_Person_PersonID">
+            <End Role="Person" EntitySet="People" />
+            <End Role="ProjectDetails" EntitySet="ProjectDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ProjectDetails_dbo_Project_ProjectID" Association="Self.FK_dbo_ProjectDetails_dbo_Project_ProjectID">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ProjectDetails" EntitySet="ProjectDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MickesProjektDataModelStoreContainer" CdmEntityContainer="MickesProjektDataEntities">
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="MickesProjektDataModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="PhoneNr" ColumnName="PhoneNr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="MickesProjektDataModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ProjectTitle" ColumnName="ProjectTitle" />
+                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectDetails">
+            <EntityTypeMapping TypeName="MickesProjektDataModel.ProjectDetail">
+              <MappingFragment StoreEntitySet="ProjectDetails">
+                <ScalarProperty Name="ProjectDetailsID" ColumnName="ProjectDetailsID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="Todo" ColumnName="Todo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
